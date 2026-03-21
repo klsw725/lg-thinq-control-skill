@@ -7,6 +7,8 @@ description: "LG ThinQ 스마트홈 API 코드 작성 가이드. LG전자 스마
 
 `scripts/thinq_client.py`를 통해 LG 스마트 가전을 조회/제어한다. 환경변수 `THINQ_PAT_TOKEN`이 설정되어 있어야 한다.
 
+> **경로 규칙**: 아래 모든 `python scripts/thinq_client.py` 명령은 이 스킬의 Base directory 기준 상대 경로다. 실행 시 반드시 Base directory를 앞에 붙여 절대 경로로 실행한다.
+
 ## 핵심 흐름
 
 1. **환경변수 확인** → `--check-env`로 필수 환경변수 설정 여부 확인

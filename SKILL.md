@@ -7,6 +7,8 @@ description: "LG ThinQ Smart Home API code writing guide. Use this skill wheneve
 
 Query and control LG smart appliances via `scripts/thinq_client.py`. The environment variable `THINQ_PAT_TOKEN` must be set.
 
+> **Path Rule**: All `python scripts/thinq_client.py` commands below are relative to this skill's Base directory. Always prepend the Base directory to construct the absolute path before execution.
+
 ## Core Flow
 
 1. **Check Environment** → Use `--check-env` to verify required environment variables
