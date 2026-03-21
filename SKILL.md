@@ -9,27 +9,41 @@ Query and control LG smart appliances via `scripts/thinq_client.py`. The environ
 
 > **Path Rule**: All `python scripts/thinq_client.py` commands below are relative to this skill's Base directory. Always prepend the Base directory to construct the absolute path before execution.
 
-## Core Flow
+## First-Time Setup
 
-1. **Check Environment** → Use `--check-env` to verify required environment variables
-2. **Select Device** → Use `--setup` or `--select` to specify the device
-3. **Query State** → Use `--state` to check current status
-4. **Query Profile** → Use `--profile` to check controllable properties
-5. **Control** → Use `--control` to control the device
+Complete the two steps below before first use. Skip if already done.
 
----
-
-## Check Environment
+**Step 1: Verify Environment Variables**
 
 ```bash
 python scripts/thinq_client.py --check-env
 ```
 
-> Always run `--check-env` before making API calls to verify environment variables are set. Token values are masked in the output.
+- If `THINQ_PAT_TOKEN` shows `✗`, guide the user to set the token.
+- Once all required variables show `✓`, proceed to Step 2.
+
+**Step 2: Select Devices**
+
+```bash
+python scripts/thinq_client.py --select-all
+```
+
+- If no devices are selected, register all devices with the command above.
+- To select specific devices, use `--select ALIAS` or `--setup` (interactive).
+
+> Querying or controlling devices without completing setup will result in errors. Always complete setup first.
 
 ---
 
-## Device Selection (One-time Setup)
+## Core Flow
+
+1. **Query State** → Use `--state` to check current status
+2. **Query Profile** → Use `--profile` to check controllable properties
+3. **Control** → Use `--control` to control the device
+
+---
+
+## Device Selection
 
 ```bash
 python scripts/thinq_client.py --setup                                        # Interactive

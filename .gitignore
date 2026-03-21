@@ -1,5 +1,5 @@
 .env
-.thinq_devices.json
+thinq_devices.json
 *.pem
 *.key
 lg-thinq-api-workspace/
