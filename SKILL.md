@@ -9,10 +9,21 @@ Query and control LG smart appliances via `scripts/thinq_client.py`. The environ
 
 ## Core Flow
 
-1. **Select Device** → Use `--setup` or `--select` to specify the device
-2. **Query State** → Use `--state` to check current status
-3. **Query Profile** → Use `--profile` to check controllable properties
-4. **Control** → Use `--control` to control the device
+1. **Check Environment** → Use `--check-env` to verify required environment variables
+2. **Select Device** → Use `--setup` or `--select` to specify the device
+3. **Query State** → Use `--state` to check current status
+4. **Query Profile** → Use `--profile` to check controllable properties
+5. **Control** → Use `--control` to control the device
+
+---
+
+## Check Environment
+
+```bash
+python scripts/thinq_client.py --check-env
+```
+
+> Always run `--check-env` before making API calls to verify environment variables are set. Token values are masked in the output.
 
 ---
 

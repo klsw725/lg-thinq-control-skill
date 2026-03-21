@@ -11,10 +11,6 @@ LG ThinQ API Client
     THINQ_REGION     - API 리전 (KR, US, EU 중 택1, 기본값: KR)
 
 사용법:
-    # .env 파일 로드 후 실행
-    python thinq_client.py
-
-    # 환경변수 직접 지정
     THINQ_PAT_TOKEN=thinqpat_xxx python thinq_client.py
 
     # 특정 디바이스 상태 조회
@@ -86,31 +82,6 @@ def _save_selected_devices(devices: list[dict[str, str]]) -> Path:
 
 
 # ──────────────────────────────────────────────
-# 환경변수 로드
-# ──────────────────────────────────────────────
-
-
-def _load_dotenv() -> None:
-    """프로젝트 루트의 .env 파일이 있으면 환경변수로 로드한다. python-dotenv 없이 동작."""
-    for candidate in [
-        Path.cwd() / ".env",
-        Path(__file__).resolve().parent.parent / ".env",
-    ]:
-        if candidate.is_file():
-            with open(candidate) as f:
-                for line in f:
-                    line = line.strip()
-                    if not line or line.startswith("#") or "=" not in line:
-                        continue
-                    key, _, value = line.partition("=")
-                    key = key.strip()
-                    value = value.strip().strip("\"'")
-                    if key and key not in os.environ:
-                        os.environ[key] = value
-            break
-
-
-# ──────────────────────────────────────────────
 # 설정
 # ──────────────────────────────────────────────
 
@@ -126,14 +97,12 @@ class ThinQConfig:
 
     @classmethod
     def from_env(cls) -> "ThinQConfig":
-        _load_dotenv()
-
         pat = os.environ.get("THINQ_PAT_TOKEN", "").strip()
         if not pat:
             print(
                 "오류: THINQ_PAT_TOKEN 환경변수가 설정되지 않았습니다.\n"
                 "  1. https://connect-pat.lgthinq.com 에서 PAT 토큰을 발급받으세요.\n"
-                "  2. .env 파일에 THINQ_PAT_TOKEN=thinqpat_xxx 형식으로 저장하세요.",
+                "  2. THINQ_PAT_TOKEN=thinqpat_xxx 환경변수를 설정하세요.",
                 file=sys.stderr,
             )
             sys.exit(1)
@@ -589,6 +558,9 @@ def _build_parser() -> argparse.ArgumentParser:
     )
     p.add_argument("--route", action="store_true", help="도메인 이름 조회")
     p.add_argument(
+        "--check-env", action="store_true", help="환경변수 설정 상태 확인 (값은 마스킹)"
+    )
+    p.add_argument(
         "--subscribe-event",
         nargs="*",
         metavar="DEVICE_ID",
@@ -663,9 +635,50 @@ def _resolve_device_id(value: str | None, client: ThinQClient) -> str:
     sys.exit(1)
 
 
+def _check_env() -> None:
+    """환경변수 설정 상태를 마스킹하여 출력한다. 값을 노출하지 않는다."""
+    env_vars = [
+        ("THINQ_PAT_TOKEN", True),
+        ("THINQ_COUNTRY", False),
+        ("THINQ_REGION", False),
+        ("THINQ_CLIENT_ID", False),
+        ("THINQ_DEVICE_ID", False),
+    ]
+    print("\n=== ThinQ 환경변수 상태 ===\n")
+    all_ok = True
+    for name, required in env_vars:
+        value = os.environ.get(name, "").strip()
+        if value:
+            if name == "THINQ_PAT_TOKEN":
+                masked = value[:12] + "***" + value[-4:] if len(value) > 16 else "***"
+            elif name == "THINQ_DEVICE_ID":
+                masked = value[:8] + "..." + value[-4:] if len(value) > 12 else "***"
+            else:
+                masked = value
+            status = f"✓ {masked}"
+        else:
+            tag = " (필수)" if required else " (선택, 기본값 사용)"
+            status = f"✗ 미설정{tag}"
+            if required:
+                all_ok = False
+        print(f"  {name:<20} {status}")
+    print()
+    if all_ok:
+        print("환경변수가 정상적으로 설정되어 있습니다.")
+    else:
+        print("필수 환경변수가 설정되지 않았습니다.")
+        print("  → THINQ_PAT_TOKEN을 설정하세요.")
+    print()
+
+
 def main() -> None:
     parser = _build_parser()
     args = parser.parse_args()
+
+    if args.check_env:
+        _check_env()
+        return
+
     client = ThinQClient.from_env()
 
     if args.setup:
