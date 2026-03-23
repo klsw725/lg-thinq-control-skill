@@ -53,7 +53,7 @@ _BASE_URLS: dict[str, str] = {
     "EU": "https://api-eic.lgthinq.com",
 }
 
-_DEVICES_CONFIG = "thinq_devices.json"
+_DEVICES_CONFIG = ".thinq_devices.json"
 
 
 def _config_path() -> Path:
