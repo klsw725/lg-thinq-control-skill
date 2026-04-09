@@ -95,6 +95,9 @@ client.safe_control(device_id, {"temperature": {"targetTemperature": 24}})
 
 이 저장소를 Claude Code 프로젝트에 스킬로 등록하면 AI가 LG 가전 제어 코드를 정확하게 작성할 수 있습니다.
 
+- shacs-bot Agent OS 기준으로는 `/agent install <git-url|local-dir>` 로 설치합니다.
+- 설치 후 루트 스킬 번들은 `skills/lg-thinq-api/` 로 projection 되고, `agent.toml`은 `agents/lg-thinq.toml` 로 정규화됩니다.
+- 문서와 예제의 `scripts/thinq_client.py` 경로는 원본 저장소 절대 경로가 아니라 **설치된 스킬 루트 기준 상대 경로**입니다.
 - `SKILL.md` — 영문 스킬 가이드
 - `SKILL-ko.md` — 한글 스킬 가이드
 
@@ -116,6 +119,7 @@ client.safe_control(device_id, {"temperature": {"targetTemperature": 24}})
 
 ```
 lg-thinq-control-skill/
+├── agent.toml             # 선택: 함께 설치되는 에이전트
 ├── scripts/
 │   └── thinq_client.py    # CLI + Python 라이브러리
 ├── SKILL.md               # 스킬 가이드 (영문)

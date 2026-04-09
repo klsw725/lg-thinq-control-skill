@@ -7,7 +7,7 @@ description: "LG ThinQ Smart Home API code writing guide. Use this skill wheneve
 
 Query and control LG smart appliances via `scripts/thinq_client.py`. The environment variable `THINQ_PAT_TOKEN` must be set.
 
-> **Path Rule**: All `python scripts/thinq_client.py` commands below are relative to this skill's Base directory. Always prepend the Base directory to construct the absolute path before execution.
+> **Bundle Layout Rule**: This package is installed as a root skill bundle. After `/agent install`, `SKILL.md`, `SKILL-ko.md`, and `scripts/thinq_client.py` are projected into the same skill root directory. Run the commands below from that installed skill root and keep `scripts/thinq_client.py` as a relative path. Do not hard-code the original repository path.
 
 ## First-Time Setup
 
@@ -356,7 +356,7 @@ If `property` is an array (`[]`), it is location-based — `locationName` must b
 | DEVICE_ROBOT_CLEANER | Robot Vacuum | Start/Stop/Home, Mode |
 | DEVICE_STICK_CLEANER | Stick Vacuum | Read-only |
 
-> Detailed profiles: `references/device-profiles.md` / Control examples: `references/control-examples.md`
+> The profile guidance and control payload examples in this document assume the same skill root that contains `scripts/thinq_client.py`.
 
 ---
 
@@ -385,6 +385,5 @@ If `property` is an array (`[]`), it is location-based — `locationName` must b
 ## References
 
 - `scripts/thinq_client.py` — CLI + Library
-- `references/device-profiles.md` — Detailed profiles for 28 device types
-- `references/control-examples.md` — Control payload examples
+- This document — device profile and control payload reference
 - PAT Issuance: https://connect-pat.lgthinq.com

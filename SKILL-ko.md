@@ -7,7 +7,7 @@ description: "LG ThinQ 스마트홈 API 코드 작성 가이드. LG전자 스마
 
 `scripts/thinq_client.py`를 통해 LG 스마트 가전을 조회/제어한다. 환경변수 `THINQ_PAT_TOKEN`이 설정되어 있어야 한다.
 
-> **경로 규칙**: 아래 모든 `python scripts/thinq_client.py` 명령은 이 스킬의 Base directory 기준 상대 경로다. 실행 시 반드시 Base directory를 앞에 붙여 절대 경로로 실행한다.
+> **번들 구조 규칙**: 이 패키지는 루트 스킬 번들로 설치된다. `/agent install` 이후에는 `SKILL.md`, `SKILL-ko.md`, `scripts/thinq_client.py`가 같은 스킬 루트 디렉터리로 projection 된다. 아래 명령은 그 설치된 스킬 루트에서 실행하고, `scripts/thinq_client.py`는 계속 상대 경로로 사용한다. 원본 저장소의 절대 경로를 하드코딩하지 않는다.
 
 ## 최초 사용 시 셋업
 
@@ -356,7 +356,7 @@ python scripts/thinq_client.py --subscribe-push DEVICE_ID     # 푸시 알림
 | DEVICE_ROBOT_CLEANER | 로봇청소기 | 시작/정지/홈, 모드 |
 | DEVICE_STICK_CLEANER | 스틱청소기 | 조회 전용 |
 
-> 상세 프로파일: `references/device-profiles.md` / 제어 예제: `references/control-examples.md`
+> 이 문서의 프로파일 설명과 제어 payload 예제는 모두 `scripts/thinq_client.py`가 함께 있는 동일한 스킬 루트 기준이다.
 
 ---
 
@@ -385,6 +385,5 @@ python scripts/thinq_client.py --subscribe-push DEVICE_ID     # 푸시 알림
 ## 참고
 
 - `scripts/thinq_client.py` — CLI + 라이브러리
-- `references/device-profiles.md` — 28종 프로파일 상세
-- `references/control-examples.md` — 제어 payload 예제
+- 이 문서 — 28종 프로파일/제어 payload 참고
 - PAT 발급: https://connect-pat.lgthinq.com
